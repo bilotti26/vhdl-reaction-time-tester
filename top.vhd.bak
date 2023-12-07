@@ -1,0 +1,94 @@
+------------
+--
+--  VHDL Template for a Finite State Machine (FSM)
+-- 	Final Project
+--
+------------
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;			-- For IEEE data types
+USE ieee.std_logic_unsigned.all;		-- For + and - operations
+USE ieee.math_real.all;					-- For real number operations
+
+-- Entity Declaration
+--Clock will be 1khz (1000hz, T = 1ms)
+ENTITY top IS
+	PORT (
+		clock, reset, playerA, playerB:	IN STD_LOGIC; -- Player A and Player B are the buttons they press respectively
+		z						:	OUT STD_LOGIC_VECTOR(3 DOWNTO 0), -- The output is the 4 LEDs
+		time					:	OUT INTEGER(0 TO 99999) --Time in ms for faster player
+	);
+END top;
+
+
+
+--  Architecture Section
+
+ARCHITECTURE arch OF top IS
+
+-- Build an enumerated type for the state machine
+-- The states declared here come directly from the state diagram
+TYPE state_type IS (A, B, C, D);
+
+-- Create a register to hold teh present and next states
+SIGNAL pr_state, nx_state	: state_type;
+SIGNAL count 				: INTEGER(0 TO 99999); -- Counter for clock cycles
+
+
+-- Begin the architecture section...
+BEGIN
+
+	PROCESS(clock, reset)
+
+	BEGIN
+
+		IF (reset = '1') THEN
+			pr_state <= A;
+			count <= 0;
+
+		ELSIF (clock'EVENT AND clock = '1') THEN
+			count <= count + 1;
+		END IF;
+
+	END PROCESS;
+
+
+----------------------- PRESENT STATE SECTION (REGISTER) --------------------------------------------
+--
+--  The function of this section is to assign the next state to the present state at the active clock edge.
+--  An asynchronous reset signal should be included to initialize the system to the default first state of the system. 
+--  This section is implemented with sequential (behavioral) VHDL code with a PROCESS.
+--
+
+
+
+
+----------------------- OUTPUT LOGIC SECTION ---------------------------------------------------------
+--
+--  The function of this section is to generate the outputs of the system: 
+--  		Determine the output based on current input and present state.
+--  This section is implemented with concurrent VHDL code with conditional assignment statements.
+--
+
+
+
+
+----------------------- NEXT STATE LOGIC SECTION ---------------------------------------------------------
+--
+--  The function of this section is to establish the next state of the system: 
+--  		Determine the next state based on current input and present state.
+--  		This section comes directly from following the transitions in the state diagram.
+--  This section is implemented with behavioral (sequential) VHDL code with a PROCESS.
+--
+
+	PROCESS (pr_state)
+
+		CASE pr_state IS
+
+		WHEN OTHERS
+
+		END CASE;
+
+	END PROCESS;
+
+END arch;
